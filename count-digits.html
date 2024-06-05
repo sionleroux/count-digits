@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Count Digits</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sscaffold-css@0.1.1/sscaffold.min.css" integrity="sha256-tNrNp6fPTVnhpywTjgNV4jCx6W9d1wuALpwVmAQEYcs=" crossorigin="anonymous">
+        <style type="text/css" media="screen">
+            [x-cloak] {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="https://unpkg.com/alpinejs" defer></script>
+        <main x-data="{ from: 1, to: 5, counts: {} }">
+            <section>
+                <h1>Count Digits</h1>
+                <p>Enter a range of numbers to count the occurances of each digit.</p>
+                <div>
+                    <fieldset class="row">
+                        <label class="column" for="from">From: <input type="number" min="0" x-model="from" /></label>
+                        <label class="column" for="to">To: <input type="number" min="0" x-model="to" /></label>
+                    </fieldset>
+                    <button @click="counts = countDigitOccurances(from, to)" >Count</button>
+                </div>
+                <table x-cloak x-show="Object.keys(counts).length > 0" x-transition>
+                    <thead>
+                        <tr>
+                            <th>Digit</th>
+                            <th>Occurances</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="[digit, occurances] in Object.entries(counts)">
+                            <tr>
+                                <td x-text="digit"></td>
+                                <td x-text="occurances"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+        <footer>
+            Last updated by <a href="https://www.sionleroux.com/">Siôn le Roux</a> on <time datetime="2024-06-05">5 June 2024</time>.
+        </footer>
+        <script charset="utf-8">
+            function countDigitOccurances(from, to) {
+                const counts = { // If you don't do this all increments result in NaN
+                    0: 0,
+                    1: 0,
+                    2: 0,
+                    3: 0,
+                    4: 0,
+                    5: 0,
+                    6: 0,
+                    7: 0,
+                    8: 0,
+                    9: 0,
+                };
+                for (let num = from; num <= to; num++) {
+                    num.toString().split("").forEach((digit) => {
+                        counts[digit]++
+                    })
+                }
+                // Remove zero-counted elements before returning
+                return Object.fromEntries(Object.entries(counts).filter(([, x]) => x > 0))
+            }
+        </script>
+    </body>
+</html>
